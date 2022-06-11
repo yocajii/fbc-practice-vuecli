@@ -4,13 +4,7 @@
     <div class="flex flex-row">
       <section class="basis-1/4">
         <button @click="addNote()">Add note</button>
-        <ul v-show="notes.length">
-          <li v-for="note in notes" :key="note.id">
-            <button class="underline" @click="setTargetNote(note)">
-              {{ headline(note) }}
-            </button>
-          </li>
-        </ul>
+        <HeadlineList :notes="notes" @select-note="setTargetNote" />
       </section>
       <section class="basis-3/4">
         <textarea
@@ -40,12 +34,10 @@
       </section>
     </div>
   </section>
-  <!--  <HelloWorld msg="Welcome to Your Vue.js App" />-->
 </template>
 
 <script>
-// import HelloWorld from "./components/HelloWorld.vue";
-
+import HeadlineList from "@/components/HeadlineList";
 const STORAGE_KEY = "my-memo";
 const memoStorage = {
   fetch() {
@@ -64,7 +56,7 @@ const memoStorage = {
 export default {
   name: "App",
   components: {
-    // HelloWorld,
+    HeadlineList,
   },
 
   created() {
@@ -111,16 +103,6 @@ export default {
         this.notes.splice(index, 1);
       }
       this.targetNote = {};
-    },
-  },
-
-  computed: {
-    headline: () => (note) => {
-      let headline = note.body.split("\n")[0];
-      if (headline.length > 12) {
-        headline = headline.slice(0, 12) + "...";
-      }
-      return headline;
     },
   },
 };
