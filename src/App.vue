@@ -1,6 +1,6 @@
 <template>
   <section class="container mx-auto text-slate-700">
-    <h1 class="mt-12 mb-12 text-6xl text-center">{{ appTitle }}</h1>
+    <h1 class="mt-12 mb-12 text-6xl text-center">{{ this.appTitle }}</h1>
     <div class="flex flex-row">
       <section class="basis-1/4">
         <button @click="addNote()">Add note</button>
@@ -21,20 +21,7 @@
 <script>
 import HeadlineList from "@/components/HeadlineList";
 import NoteEditor from "@/components/NoteEditor";
-const STORAGE_KEY = "my-memo";
-const memoStorage = {
-  fetch() {
-    const notes = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-    notes.forEach((note, index) => {
-      note.id = index;
-    });
-    memoStorage.uid = notes.length;
-    return notes;
-  },
-  save(notes) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(notes));
-  },
-};
+import { storageAgent } from "@/modules/storageAgent";
 
 export default {
   name: "App",
@@ -43,16 +30,22 @@ export default {
     HeadlineList,
   },
 
-  created() {
-    document.documentElement.setAttribute("lang", "ja");
+  beforeCreate() {
+    this.storageAgent = storageAgent;
+    this.storageKey = "my-memo";
+    this.appTitle = "My Memo";
   },
 
   data() {
     return {
-      appTitle: "My Memo",
-      notes: memoStorage.fetch(),
+      notes: this.storageAgent.fetch(this.storageKey),
       targetNote: {},
     };
+  },
+
+  created() {
+    console.log(this.storageAgent.fetch(this.storageKey));
+    document.documentElement.setAttribute("lang", "ja");
   },
 
   methods: {
@@ -71,21 +64,21 @@ export default {
       }
       if (this.targetNote.id === undefined) {
         this.notes.push({
-          id: memoStorage.uid++,
+          id: this.storageAgent.uid++,
           body: value,
         });
         this.targetNote = { ...this.notes.slice(-1)[0] };
       } else {
         this.notes.splice(this.targetNote.id, 1, this.targetNote);
       }
-      memoStorage.save(this.notes);
+      this.storageAgent.save(this.storageKey, this.notes);
     },
 
     removeNote(target) {
       const index = this.notes.findIndex((note) => note.id === target.id);
-      alert(index);
       if (index > -1) {
         this.notes.splice(index, 1);
+        this.storageAgent.save(this.storageKey, this.notes);
       }
       this.targetNote = {};
     },
