@@ -7,30 +7,12 @@
         <HeadlineList :notes="notes" @select-note="setTargetNote" />
       </section>
       <section class="basis-3/4">
-        <textarea
-          name="about"
-          rows="12"
-          autocomplete="off"
-          class="p-3 w-full border rounded"
-          placeholder="何を書きますか？"
-          v-model="targetNote.body"
+        <NoteEditor
+          v-model="currentNote"
+          :note="targetNote"
+          @save="saveNote"
+          @remove="removeNote"
         />
-        <div class="text-right">
-          <button
-            v-if="targetNote.id > -1"
-            class="mt-4 py-2 px-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-700 active:ring-2 active:ring-offset-2 active:ring-indigo-500"
-            @click="removeNote(targetNote)"
-          >
-            削除
-          </button>
-          <button
-            type="submit"
-            class="mt-4 py-2 px-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-700 active:ring-2 active:ring-offset-2 active:ring-indigo-500"
-            @click="saveNote"
-          >
-            Save
-          </button>
-        </div>
       </section>
     </div>
   </section>
@@ -38,6 +20,7 @@
 
 <script>
 import HeadlineList from "@/components/HeadlineList";
+import NoteEditor from "@/components/NoteEditor";
 const STORAGE_KEY = "my-memo";
 const memoStorage = {
   fetch() {
@@ -56,6 +39,7 @@ const memoStorage = {
 export default {
   name: "App",
   components: {
+    NoteEditor,
     HeadlineList,
   },
 
@@ -97,8 +81,9 @@ export default {
       memoStorage.save(this.notes);
     },
 
-    removeNote(note) {
-      const index = this.notes.indexOf(note);
+    removeNote(target) {
+      const index = this.notes.findIndex((note) => note.id === target.id);
+      alert(index);
       if (index > -1) {
         this.notes.splice(index, 1);
       }
