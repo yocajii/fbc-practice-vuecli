@@ -1,15 +1,13 @@
 <template>
   <section class="container mx-auto text-slate-700">
-    <h1 class="mt-12 mb-12 text-6xl text-center">{{ title }}</h1>
+    <h1 class="mt-12 mb-12 text-6xl text-center">{{ appTitle }}</h1>
     <div class="flex flex-row">
       <section class="basis-1/4">
-        <button class="destroy btn btn-outline-danger" @click="addNote()">
-          Add note
-        </button>
+        <button @click="addNote()">Add note</button>
         <ul v-show="notes.length">
           <li v-for="note in notes" :key="note.id">
             <button class="underline" @click="setTargetNote(note)">
-              {{ note.body.split("\n")[0] }}
+              {{ headline(note) }}
             </button>
           </li>
         </ul>
@@ -75,7 +73,7 @@ export default {
 
   data() {
     return {
-      title: "My Memo",
+      appTitle: "My Memo",
       notes: memoStorage.fetch(),
       targetNote: {},
     };
@@ -83,7 +81,7 @@ export default {
 
   methods: {
     setTargetNote(note) {
-      this.targetNote = note;
+      this.targetNote = { ...note };
     },
 
     addNote() {
@@ -100,7 +98,9 @@ export default {
           id: memoStorage.uid++,
           body: value,
         });
-        this.targetNote = this.notes.slice(-1)[0];
+        this.targetNote = { ...this.notes.slice(-1)[0] };
+      } else {
+        this.notes.splice(this.targetNote.id, 1, this.targetNote);
       }
       memoStorage.save(this.notes);
     },
@@ -111,6 +111,16 @@ export default {
         this.notes.splice(index, 1);
       }
       this.targetNote = {};
+    },
+  },
+
+  computed: {
+    headline: () => (note) => {
+      let headline = note.body.split("\n")[0];
+      if (headline.length > 12) {
+        headline = headline.slice(0, 12) + "...";
+      }
+      return headline;
     },
   },
 };
