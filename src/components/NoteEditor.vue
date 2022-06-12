@@ -1,27 +1,28 @@
 <template>
   <textarea
     name="editor"
-    rows="12"
+    rows="18"
     autocomplete="off"
-    class="p-3 w-full border rounded"
+    class="textarea"
     placeholder="何を書きますか？"
     v-model="localNote.body"
+    ref="editor"
   />
-  <div class="text-right">
-    <button
-      v-if="note.id > -1"
-      class="mt-4 py-2 px-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-700 active:ring-2 active:ring-offset-2 active:ring-indigo-500"
-      @click="$emit('remove', note)"
-    >
-      削除
-    </button>
-    <button
-      type="submit"
-      class="mt-4 py-2 px-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-700 active:ring-2 active:ring-offset-2 active:ring-indigo-500"
-      @click="$emit('save')"
-    >
-      Save
-    </button>
+  <div class="columns mt-3">
+    <div class="column">
+      <button
+        v-if="note.id > -1"
+        class="button is-danger"
+        @click="$emit('remove', note)"
+      >
+        Remove
+      </button>
+    </div>
+    <div class="column has-text-right">
+      <button type="submit" class="button is-primary" @click="$emit('save')">
+        Save
+      </button>
+    </div>
   </div>
 </template>
 
@@ -32,6 +33,14 @@ export default {
     note: Object,
   },
   emits: ["save", "remove"],
+
+  mounted() {
+    this.$refs.editor.focus();
+  },
+
+  updated() {
+    this.$refs.editor.focus();
+  },
 
   computed: {
     localNote: {

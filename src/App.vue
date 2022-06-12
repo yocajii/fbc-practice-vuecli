@@ -1,21 +1,41 @@
 <template>
-  <section class="container mx-auto text-slate-700">
-    <h1 class="mt-12 mb-12 text-6xl text-center">{{ this.appTitle }}</h1>
-    <div class="flex flex-row">
-      <section class="basis-1/4">
-        <button @click="addNote()">Add note</button>
-        <HeadlineList :notes="notes" @select-note="setTargetNote" />
-      </section>
-      <section class="basis-3/4">
-        <NoteEditor
-          v-model="currentNote"
-          :note="targetNote"
-          @save="saveNote"
-          @remove="removeNote"
-        />
-      </section>
+  <section class="hero">
+    <div class="hero-body container has-text-centered">
+      <h1 class="title is-1">
+        {{ this.appTitle }}
+        <span class="icon ml-2">
+          <font-awesome-icon icon="pen-to-square" />
+        </span>
+      </h1>
     </div>
   </section>
+  <div class="container is-max-desktop columns">
+    <section class="column is-one-quarter">
+      <nav class="panel is-primary has-background-white">
+        <HeadlineList
+          :notes="notes"
+          @select-note="setTargetNote"
+          v-show="notes.length"
+        />
+        <div class="panel-block">
+          <button class="button is-outlined is-fullwidth" @click="addNote()">
+            <span class="icon">
+              <font-awesome-icon icon="plus" />
+            </span>
+            <span>Add note</span>
+          </button>
+        </div>
+      </nav>
+    </section>
+    <section class="column">
+      <NoteEditor
+        v-model="currentNote"
+        :note="targetNote"
+        @save="saveNote"
+        @remove="removeNote"
+      />
+    </section>
+  </div>
 </template>
 
 <script>
@@ -44,7 +64,6 @@ export default {
   },
 
   created() {
-    console.log(this.storageAgent.fetch(this.storageKey));
     document.documentElement.setAttribute("lang", "ja");
   },
 
