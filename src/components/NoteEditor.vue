@@ -3,7 +3,7 @@
     name="editor"
     rows="18"
     autocomplete="off"
-    class="textarea"
+    class="textarea is-primary"
     placeholder="何を書きますか？"
     v-model="localNote.body"
     ref="editor"
@@ -12,15 +12,24 @@
     <div class="column">
       <button
         v-if="note.id > -1"
-        class="button is-danger"
+        class="button is-danger is-medium"
         @click="$emit('remove', note)"
       >
-        Remove
+        <span class="icon">
+          <font-awesome-icon icon="trash-can" />
+        </span>
       </button>
     </div>
     <div class="column has-text-right">
-      <button type="submit" class="button is-primary" @click="$emit('save')">
-        Save
+      <button
+        type="submit"
+        class="button is-primary is-medium"
+        @click="$emit('save')"
+      >
+        <span class="icon">
+          <font-awesome-icon icon="box-archive" />
+        </span>
+        <span>Save</span>
       </button>
     </div>
   </div>

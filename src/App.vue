@@ -1,7 +1,7 @@
 <template>
   <section class="hero">
-    <div class="hero-body container has-text-centered">
-      <h1 class="title is-1">
+    <div class="hero-body has-text-centered">
+      <h1 class="title is-1 is-family-sans-serif has-text-grey-dark">
         {{ this.appTitle }}
         <span class="icon ml-2">
           <font-awesome-icon icon="pen-to-square" />
@@ -18,7 +18,10 @@
           v-show="notes.length"
         />
         <div class="panel-block">
-          <button class="button is-outlined is-fullwidth" @click="addNote()">
+          <button
+            class="button is-primary is-outlined is-fullwidth"
+            @click="addNote()"
+          >
             <span class="icon">
               <font-awesome-icon icon="plus" />
             </span>

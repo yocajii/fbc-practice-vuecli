@@ -7,9 +7,11 @@ import {
   faPlus,
   faFile,
   faPenToSquare,
+  faTrashCan,
+  faBoxArchive,
 } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faPlus, faFile, faPenToSquare);
+library.add(faPlus, faFile, faPenToSquare, faTrashCan, faBoxArchive);
 
 const app = createApp(App);
 app.component("font-awesome-icon", FontAwesomeIcon);
