@@ -11,7 +11,7 @@
   <div class="columns mt-3">
     <div class="column">
       <button
-        v-if="note.id > -1"
+        v-if="note.id !== undefined"
         class="button is-danger is-medium"
         @click="$emit('remove', note)"
       >

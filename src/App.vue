@@ -86,23 +86,26 @@ export default {
       }
       if (this.targetNote.id === undefined) {
         this.notes.push({
-          id: this.storageAgent.uid++,
+          id: crypto.randomUUID(),
           body: value,
         });
         this.targetNote = { ...this.notes.slice(-1)[0] };
       } else {
-        this.notes.splice(this.targetNote.id, 1, this.targetNote);
+        const index = this.findIndex(this.targetNote);
+        this.notes.splice(index, 1, this.targetNote);
+        this.targetNote = { ...this.notes.slice(index)[0] };
       }
       this.storageAgent.save(this.storageKey, this.notes);
     },
 
     removeNote(target) {
-      const index = this.notes.findIndex((note) => note.id === target.id);
-      if (index > -1) {
-        this.notes.splice(index, 1);
-        this.storageAgent.save(this.storageKey, this.notes);
-      }
+      this.notes.splice(this.findIndex(target), 1);
+      this.storageAgent.save(this.storageKey, this.notes);
       this.targetNote = {};
+    },
+
+    findIndex(target) {
+      return this.notes.findIndex((note) => note.id === target.id);
     },
   },
 };
