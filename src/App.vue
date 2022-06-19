@@ -20,7 +20,7 @@
         <div class="panel-block">
           <button
             class="button is-primary is-outlined is-fullwidth"
-            @click="addNote()"
+            @click="newNote()"
           >
             <span class="icon">
               <font-awesome-icon icon="plus" />
@@ -75,7 +75,7 @@ export default {
       this.targetNote = { ...note };
     },
 
-    addNote() {
+    newNote() {
       this.targetNote = {};
     },
 
