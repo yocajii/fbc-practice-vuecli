@@ -13,7 +13,7 @@
       <button
         v-if="note.id !== undefined"
         class="button is-danger is-medium"
-        @click="$emit('remove', note)"
+        @click="$emit('remove', note.id)"
       >
         <span class="icon">
           <font-awesome-icon icon="trash-can" />
@@ -24,7 +24,7 @@
       <button
         type="submit"
         class="button is-primary is-medium"
-        @click="$emit('save')"
+        @click="$emit('save', note.id)"
       >
         <span class="icon">
           <font-awesome-icon icon="box-archive" />

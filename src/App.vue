@@ -71,41 +71,43 @@ export default {
   },
 
   methods: {
-    setTargetNote(note) {
-      this.targetNote = { ...note };
+    setTargetNote(id) {
+      const index = this.findIndex(id);
+      this.targetNote = { ...this.notes.slice(index)[0] };
     },
 
     setNewNote() {
       this.targetNote = { body: "" };
     },
 
-    saveNote() {
+    saveNote(id) {
       const value = this.targetNote.body.trim();
       if (!value) {
         return;
       }
-      if (this.targetNote.id === undefined) {
+      if (id === undefined) {
+        const uuid = crypto.randomUUID();
         this.notes.push({
-          id: crypto.randomUUID(),
+          id: uuid,
           body: value,
         });
-        this.targetNote = { ...this.notes.slice(-1)[0] };
+        this.setTargetNote(uuid);
       } else {
-        const index = this.findIndex(this.targetNote);
+        const index = this.findIndex(id);
         this.notes.splice(index, 1, this.targetNote);
-        this.targetNote = { ...this.notes.slice(index)[0] };
+        this.setTargetNote(id);
       }
       this.storageAgent.save(this.storageKey, this.notes);
     },
 
-    removeNote(target) {
-      this.notes.splice(this.findIndex(target), 1);
+    removeNote(id) {
+      this.notes.splice(this.findIndex(id), 1);
       this.storageAgent.save(this.storageKey, this.notes);
       this.setNewNote();
     },
 
-    findIndex(target) {
-      return this.notes.findIndex((note) => note.id === target.id);
+    findIndex(id) {
+      return this.notes.findIndex((note) => note.id === id);
     },
   },
 };

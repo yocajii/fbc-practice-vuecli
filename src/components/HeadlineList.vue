@@ -3,7 +3,7 @@
     class="panel-block is-active"
     v-for="note in notes"
     :key="note.id"
-    @click="$emit('select-note', note)"
+    @click="$emit('select-note', note.id)"
   >
     <span class="panel-icon">
       <font-awesome-icon icon="file" />
