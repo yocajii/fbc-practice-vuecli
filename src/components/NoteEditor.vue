@@ -11,7 +11,7 @@
   <div class="columns mt-3">
     <div class="column">
       <button
-        v-if="note.id !== undefined"
+        v-if="isPersisted(note)"
         class="button is-danger is-medium"
         @click="$emit('remove', note.id)"
       >
@@ -59,6 +59,10 @@ export default {
       set() {
         this.$emit("save");
       },
+    },
+
+    isPersisted: () => (note) => {
+      return note.id !== undefined;
     },
   },
 };
