@@ -20,7 +20,7 @@
         <div class="panel-block">
           <button
             class="button is-primary is-outlined is-fullwidth"
-            @click="newNote()"
+            @click="setNewNote()"
           >
             <span class="icon">
               <font-awesome-icon icon="plus" />
@@ -62,7 +62,7 @@ export default {
   data() {
     return {
       notes: this.storageAgent.fetch(this.storageKey),
-      targetNote: {},
+      targetNote: { body: "" },
     };
   },
 
@@ -75,12 +75,12 @@ export default {
       this.targetNote = { ...note };
     },
 
-    newNote() {
-      this.targetNote = {};
+    setNewNote() {
+      this.targetNote = { body: "" };
     },
 
     saveNote() {
-      const value = this.targetNote.body && this.targetNote.body.trim();
+      const value = this.targetNote.body.trim();
       if (!value) {
         return;
       }
@@ -101,7 +101,7 @@ export default {
     removeNote(target) {
       this.notes.splice(this.findIndex(target), 1);
       this.storageAgent.save(this.storageKey, this.notes);
-      this.targetNote = {};
+      this.setNewNote();
     },
 
     findIndex(target) {
