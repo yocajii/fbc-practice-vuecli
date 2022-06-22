@@ -15,7 +15,6 @@
         <HeadlineList
           :notes="notes"
           @select-note="setTargetNote"
-          v-show="notes.length"
         />
         <div class="panel-block">
           <button
@@ -31,12 +30,7 @@
       </nav>
     </section>
     <section class="column">
-      <NoteEditor
-        v-model="currentNote"
-        :note="targetNote"
-        @save="saveNote"
-        @remove="removeNote"
-      />
+      <NoteEditor :note="targetNote" @save="saveNote" @remove="removeNote" />
     </section>
   </div>
 </template>
