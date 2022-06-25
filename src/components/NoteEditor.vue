@@ -11,9 +11,9 @@
   <div class="columns mt-3">
     <div class="column">
       <button
-        v-if="isPersisted(note)"
+        v-if="isPersisted(localNote)"
         class="button is-danger is-medium"
-        @click="$emit('remove', note.id)"
+        @click="$emit('remove', localNote.id)"
       >
         <span class="icon">
           <font-awesome-icon icon="trash-can" />
@@ -24,7 +24,7 @@
       <button
         type="submit"
         class="button is-primary is-medium"
-        @click="$emit('save', note.id)"
+        @click="$emit('save', localNote.id)"
       >
         <span class="icon">
           <font-awesome-icon icon="box-archive" />
