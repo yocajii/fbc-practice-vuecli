@@ -11,7 +11,7 @@
   <div class="columns mt-3">
     <div class="column">
       <button
-        v-if="isPersisted(localNote)"
+        v-if="isPersisted"
         class="button is-danger is-medium"
         @click="$emit('remove', localNote.id)"
       >
@@ -64,8 +64,8 @@ export default {
   },
 
   computed: {
-    isPersisted: () => (note) => {
-      return note.id !== undefined;
+    isPersisted() {
+      return this.localNote.id !== undefined;
     },
   },
 };
