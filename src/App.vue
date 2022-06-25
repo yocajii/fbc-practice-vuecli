@@ -12,10 +12,7 @@
   <div class="container is-max-desktop columns">
     <section class="column is-one-quarter">
       <nav class="panel is-primary has-background-white">
-        <HeadlineList
-          :notes="notes"
-          @select-note="setTargetNote"
-        />
+        <HeadlineList :notes="notes" @select-note="setTargetNote" />
         <div class="panel-block">
           <button
             class="button is-primary is-outlined is-fullwidth"
