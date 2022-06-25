@@ -20,13 +20,10 @@ export default {
   },
   emits: ["select-note"],
 
-  computed: {
-    headline: () => (note) => {
-      let headline = note.body.split("\n")[0];
-      if (headline.length > 10) {
-        headline = headline.slice(0, 9) + "...";
-      }
-      return headline;
+  methods: {
+    headline(note) {
+      const headline = note.body.split("\n")[0];
+      return headline.length > 10 ? headline.slice(0, 9) + "..." : headline;
     },
   },
 };
