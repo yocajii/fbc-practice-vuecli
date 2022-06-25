@@ -71,24 +71,22 @@ export default {
       this.targetNote = { body: "" };
     },
 
-    saveNote(id) {
-      const value = this.targetNote.body.trim();
-      if (!value) {
+    saveNote(id, body) {
+      if (!body.trim()) {
         return;
       }
-      if (id === undefined) {
-        const uuid = crypto.randomUUID();
-        this.notes.push({
-          id: uuid,
-          body: value,
-        });
-        this.setTargetNote(uuid);
+      const note = {
+        id: id ?? crypto.randomUUID(),
+        body: body,
+      };
+      const index = this.findIndex(note.id);
+      if (index === -1) {
+        this.notes.push(note);
       } else {
-        const index = this.findIndex(id);
-        this.notes.splice(index, 1, this.targetNote);
-        this.setTargetNote(id);
+        this.notes.splice(index, 1, note);
       }
       this.storageAgent.save(this.storageKey, this.notes);
+      this.setTargetNote(note.id);
     },
 
     removeNote(id) {

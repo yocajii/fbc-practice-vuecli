@@ -24,7 +24,7 @@
       <button
         type="submit"
         class="button is-primary is-medium"
-        @click="$emit('save', localNote.id)"
+        @click="$emit('save', localNote.id, localNote.body)"
       >
         <span class="icon">
           <font-awesome-icon icon="box-archive" />
