@@ -43,6 +43,12 @@ export default {
   },
   emits: ["save", "remove"],
 
+  data() {
+    return {
+      localNote: this.note,
+    };
+  },
+
   mounted() {
     this.$refs.editor.focus();
   },
@@ -51,16 +57,13 @@ export default {
     this.$refs.editor.focus();
   },
 
-  computed: {
-    localNote: {
-      get() {
-        return this.note;
-      },
-      set() {
-        this.$emit("save");
-      },
+  watch: {
+    note() {
+      this.localNote = this.note;
     },
+  },
 
+  computed: {
     isPersisted: () => (note) => {
       return note.id !== undefined;
     },
