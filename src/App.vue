@@ -57,10 +57,6 @@ export default {
     };
   },
 
-  created() {
-    document.documentElement.setAttribute("lang", "ja");
-  },
-
   methods: {
     setTargetNote(id) {
       const index = this.findIndex(id);
