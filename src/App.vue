@@ -77,7 +77,7 @@ export default {
       }
       const note = {
         id: id ?? crypto.randomUUID(),
-        body: body,
+        body,
       };
       const index = this.findIndex(note.id);
       if (index === -1) {
